@@ -42,4 +42,20 @@ public class MessageContentService {
 
         return messageContent;
     }
+
+    public MessageContent uploadSound(String username, MultipartFile file) throws IOException {
+        MessageContent messageContent = new MessageContent();
+
+        messageContent.setMessage(file.getOriginalFilename());
+        messageContent.setName(username);
+        messageContent.setTimestamp(LocalDateTime.now().toString());
+        messageContent.setReceived(false);
+        messageContent.setUpload(false);
+        messageContent.setFile(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+        messageContent.setSound(true);
+
+        messageContentRepository.save(messageContent);
+
+        return messageContent;
+    }
 }

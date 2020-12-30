@@ -49,6 +49,18 @@ public class MessageContentController {
         return null;
     }
 
+    @PostMapping(path = "/uploadSound/{username}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MessageContent> uploadSound(@PathVariable("username") String username, @RequestParam("file") MultipartFile file){
+
+        try {
+            return new ResponseEntity<>(messageContentService.uploadSound(username, file), HttpStatus.CREATED);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @MessageMapping("/send")
     public void sendMessage(@Payload MessageContent message){
@@ -56,7 +68,4 @@ public class MessageContentController {
 
         template.convertAndSend("/topic/"+"teste", message);
     }
-
-
-
 }

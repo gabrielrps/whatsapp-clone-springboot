@@ -15,6 +15,7 @@ public class MessageContent implements Serializable {
     private Boolean received;
 
     private Boolean isUpload;
+    private Boolean isSound;
     private Binary file;
 
     public String getId() {
@@ -71,5 +72,13 @@ public class MessageContent implements Serializable {
 
     public void setFile(Binary file) {
         this.file = file;
+    }
+
+    public Boolean getSound() {
+        return isSound;
+    }
+
+    public void setSound(Boolean sound) {
+        isSound = sound;
     }
 }
