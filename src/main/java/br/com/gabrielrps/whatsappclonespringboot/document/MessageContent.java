@@ -1,15 +1,21 @@
 package br.com.gabrielrps.whatsappclonespringboot.document;
 
+import org.bson.types.Binary;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
 @Document("messageContent")
-public class MessageContent {
+public class MessageContent implements Serializable {
 
     private String id;
     private String message;
     private String name;
     private String timestamp;
     private Boolean received;
+
+    private Boolean isUpload;
+    private Binary file;
 
     public String getId() {
         return id;
@@ -49,5 +55,21 @@ public class MessageContent {
 
     public void setReceived(Boolean received) {
         this.received = received;
+    }
+
+    public Boolean getUpload() {
+        return isUpload;
+    }
+
+    public void setUpload(Boolean upload) {
+        isUpload = upload;
+    }
+
+    public Binary getFile() {
+        return file;
+    }
+
+    public void setFile(Binary file) {
+        this.file = file;
     }
 }

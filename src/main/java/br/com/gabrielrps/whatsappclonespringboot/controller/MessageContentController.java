@@ -3,12 +3,15 @@ package br.com.gabrielrps.whatsappclonespringboot.controller;
 import br.com.gabrielrps.whatsappclonespringboot.document.MessageContent;
 import br.com.gabrielrps.whatsappclonespringboot.service.MessageContentService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,9 +33,22 @@ public class MessageContentController {
     }
 
     @GetMapping("/messages/sync")
-    public ResponseEntity<List<MessageContent>> getMessages(){
+    public ResponseEntity<List<?>> getMessages(){
         return new ResponseEntity<>(messageContentService.getMessages(), HttpStatus.CREATED);
     }
+
+    @PostMapping(path = "/upload/{username}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MessageContent> uploadImage(@PathVariable("username") String username, @RequestParam("file") MultipartFile file){
+
+        try {
+            return new ResponseEntity<>(messageContentService.saveUpload(username, file), HttpStatus.CREATED);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @MessageMapping("/send")
     public void sendMessage(@Payload MessageContent message){
