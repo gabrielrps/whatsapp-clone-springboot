@@ -1,6 +1,7 @@
 package br.com.gabrielrps.whatsappclonespringboot.controller;
 
 import br.com.gabrielrps.whatsappclonespringboot.document.MessageContent;
+import br.com.gabrielrps.whatsappclonespringboot.payload.MessageContentPayload;
 import br.com.gabrielrps.whatsappclonespringboot.service.MessageContentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -63,9 +64,10 @@ public class MessageContentController {
 
 
     @MessageMapping("/send")
-    public void sendMessage(@Payload MessageContent message){
+    public void sendMessage(@Payload MessageContentPayload message){
         message.setTimestamp(LocalDateTime.now().toString());
 
         template.convertAndSend("/topic/"+"teste", message);
     }
+
 }
